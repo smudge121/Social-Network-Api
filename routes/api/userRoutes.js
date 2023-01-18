@@ -47,4 +47,24 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
+router.post("/:id/friends/:friendId", async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(req.params.id, 
+            { $push: {friends: req.params.friendId}});
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+router.delete("/:id/friends/:friendId", async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(req.params.id, 
+            { $pull: {friends: req.params.friendId}});
+        res.sendStatus(200);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router;
